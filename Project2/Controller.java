@@ -23,6 +23,8 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 			case KeyEvent.VK_LEFT: keyLeft = true; break;
 			case KeyEvent.VK_UP: keyUp = true; break;
 			case KeyEvent.VK_DOWN: keyDown = true; break;
+			case KeyEvent.VK_S: model.saveBricks(); break; 
+			case KeyEvent.VK_L: model.loadBricks(); break; 
 		}
 	}
 
@@ -39,21 +41,23 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 	}
 
 	void update() {
-		if(keyRight) model.dest_x++;
-		if(keyLeft) model.dest_x--;
-		if(keyDown) model.dest_y++;
-		if(keyUp) model.dest_y--;
+		if(keyRight) model.camX++;
+		if(keyLeft) model.camX--;
+		if(keyDown) model.camY++;
+		if(keyUp) model.camY--;
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		view.removeButton();
 	}
 
 	public void mousePressed(MouseEvent e) {
-		model.setDestination(e.getX(), e.getY());
+		model.startBrick(e.getX(), e.getY());
 	}
 
-	public void mouseReleased(MouseEvent e) {    }
+	public void mouseReleased(MouseEvent e) { 
+		model.endBrick(e.getX(), e.getY());
+	}
+
 	public void mouseEntered(MouseEvent e) {    }
 	public void mouseExited(MouseEvent e) {    }
 	public void mouseClicked(MouseEvent e) {    }

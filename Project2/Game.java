@@ -16,7 +16,7 @@ public class Game extends JFrame {
 		this.getContentPane().add(view);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		this.addMouseListener(controller);
+		view.addMouseListener(controller);
 		this.addKeyListener(controller);
 	}
 

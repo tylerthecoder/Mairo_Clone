@@ -8,32 +8,24 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 class View extends JPanel {
-	JButton b1;
 	BufferedImage turtle_image;
 	Model model;
 
 	View(Controller c, Model m){
 		model = m;
-		b1 = new JButton("Never push me");
-		b1.addActionListener(c);
-		this.add(b1);
 		c.setView(this);
-		try {
-			this.turtle_image = ImageIO.read(new File("turtle.png"));
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}
-	}
-
-	void removeButton() {
-		this.remove(b1);
-		this.repaint();
 	}
 
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(128, 255, 255));
+		// clear screen
+		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g.drawImage(this.turtle_image, model.turtle_x, model.turtle_y, null);
+
+		// paint bricks
+		g.setColor(new Color(0, 0, 0));
+		for (int i = 0; i < model.bricks.size(); i++) {
+			Brick b = model.bricks.get(i);
+			g.drawRect(b.x - model.camX, b.y - model.camY, b.w, b.h);
+		}
 	}
 }
