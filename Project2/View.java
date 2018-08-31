@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 class View extends JPanel {
-	BufferedImage turtle_image;
 	Model model;
+	Image[] marioImages;
 
 	View(Controller c, Model m){
 		model = m;
