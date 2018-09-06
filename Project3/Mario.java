@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.awt.Image;
 
 public class Mario {
 	int x;
@@ -8,7 +10,8 @@ public class Mario {
 	int imgNumber;
 	int moveSpeed;
 	int flightTime;
-	
+  static Image[] images;  
+
 	double vy;
 	
 	Mario() {
@@ -17,13 +20,14 @@ public class Mario {
 		y = 400;
 		w = 60;
 		h = 95;
-		moveSpeed = 5;
+		moveSpeed = 8;
 		flightTime = 0;
+    images = View.loadMarioImages();
 	}
 
 	public void update(Model m) {
 		// apply gravity
-		vy += 1.2;
+		vy += 1.8;
 		y += vy;
 		
 		// check for collision
@@ -32,12 +36,11 @@ public class Mario {
 
 		if (hitDir == 4 || hitDir == 2) {
 			y += hitData[1];
-			vy = 0;
-			flightTime = 0;
-		} else if (y > 500) {
-			y = 500;
-			vy = 0;
-			flightTime = 0;
+      // only stop his velocity if he is hitting a brick
+      if (hitDir == 4) {
+        vy = 0;
+        flightTime = 0;
+      }
 		} else {
 			flightTime++;
 		}
@@ -46,16 +49,15 @@ public class Mario {
 	public int moveX(ArrayList<Brick> bricks, int xDir) {
 		int[] hitData = isHittingBricks(bricks);	
 		int hitDir = hitData[0];
-		System.out.println(hitDir);
+		x += moveSpeed * xDir;
 		// we are not hititng a block
 		if (hitDir == 0) {
 			imgNumber = (imgNumber+1)%5;
-			x += moveSpeed * xDir;
 			return moveSpeed * xDir;
 		} else {
 			int dx = hitData[1];
 			x += dx; 
-			return dx; 
+			return 0; 
 		}
 	}
 
@@ -67,12 +69,17 @@ public class Mario {
 		}
 	}
 
+	public void crouch() {
+
+	}
+
 	private int[] isHittingBricks(ArrayList<Brick> bricks) {
 		// returns direction in which the brick is being hit
 		// 0 not hit, 1 left side of brick, 2 bottom of brick, 3 right of brick, 4 top of brick
 		// second parameter is the amount to move mario to be flush with object
-		for (int i = 0; i < bricks.size(); i++) {
-			Brick brick = bricks.get(i);
+    Iterator<Brick> brickIterator = bricks.iterator();
+    while (brickIterator.hasNext()) {
+			Brick brick = brickIterator.next(); 
 			if (x + w > brick.x           &&
 					x     < brick.x + brick.w &&
 					y + h > brick.y           &&
@@ -93,7 +100,8 @@ public class Mario {
 					}
 				}
 			}
-		}
+
+    }
 		return new int[] {0,0};
 	}
 }

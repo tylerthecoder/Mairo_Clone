@@ -11,11 +11,17 @@ class Model {
 	Model() {
 		bricks = new ArrayList<Brick>(); 	
 		mario = new Mario();
+    makeFloor();
 	}
 
 	public void update() {
 		mario.update(this);
 	}
+
+  private void makeFloor() {
+    Brick floorBrick = new Brick(0,600,10000,700);  
+    bricks.add(floorBrick);
+  }
 
 	public void startBrick(int x, int y) {
 		mouseStartX = x + camX;
