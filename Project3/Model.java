@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.Color;
 
 class Model {
 	int mouseStartX;
@@ -16,10 +17,12 @@ class Model {
 
 	public void update() {
 		mario.update(this);
+    camX = mario.x - 100;
+    camY = 0;
 	}
 
   private void makeFloor() {
-    Brick floorBrick = new Brick(0,600,10000,700);  
+    Brick floorBrick = new Brick(0,900,10000,1000, new Color(15, 200, 15));  
     bricks.add(floorBrick);
   }
 
@@ -35,7 +38,7 @@ class Model {
 		int posY = Math.min(clickY, mouseStartY);
 		int width =	Math.abs(clickX - mouseStartX);	
 		int height = Math.abs(clickY - mouseStartY);
-		Brick b = new Brick(posX, posY, width, height); 
+		Brick b = new Brick(posX, posY, width, height, new Color(255,255,255)); 
 		bricks.add(b);			
 	}
 	

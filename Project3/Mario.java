@@ -13,11 +13,12 @@ public class Mario {
   static Image[] images;  
 
 	double vy;
+  double vx;
 	
 	Mario() {
 		imgNumber = 0;
-		x = 50;
-		y = 400;
+		x = 150;
+		y = 700;
 		w = 60;
 		h = 95;
 		moveSpeed = 8;
@@ -37,8 +38,8 @@ public class Mario {
 		if (hitDir == 4 || hitDir == 2) {
 			y += hitData[1];
       // only stop his velocity if he is hitting a brick
+      vy = 0;
       if (hitDir == 4) {
-        vy = 0;
         flightTime = 0;
       }
 		} else {
@@ -46,18 +47,16 @@ public class Mario {
 		}
 	}
 
-	public int moveX(ArrayList<Brick> bricks, int xDir) {
+	public void moveX(ArrayList<Brick> bricks, int xDir) {
+    vx = moveSpeed * xDir;
+		x += moveSpeed * xDir;
 		int[] hitData = isHittingBricks(bricks);	
 		int hitDir = hitData[0];
-		x += moveSpeed * xDir;
-		// we are not hititng a block
-		if (hitDir == 0) {
-			imgNumber = (imgNumber+1)%5;
-			return moveSpeed * xDir;
+		if (hitDir == 0) { // we are not hitting a brick
+			imgNumber = (imgNumber+Math.abs(xDir))%5;
 		} else {
 			int dx = hitData[1];
 			x += dx; 
-			return 0; 
 		}
 	}
 
@@ -104,4 +103,5 @@ public class Mario {
     }
 		return new int[] {0,0};
 	}
+
 }

@@ -48,25 +48,29 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 	}
 
 	void update() {
-    System.out.println("new");
-    System.out.println(keyDownBuffer);
-    System.out.println(keyUpBuffer);
-		keyDownBuffer.forEach(key -> {
+    int speed = 0;
+    int mult = 1;
+    for (int key : keyDownBuffer) {
 			if (key == KeyEvent.VK_SPACE) {
 				model.mario.jump();
 			}
+
       if (key == KeyEvent.VK_D) {
-        int howMuchMove = model.mario.moveX(model.bricks, 1);
-        model.camX += howMuchMove;
+        speed = 1;
+      } else if (key == KeyEvent.VK_A) {
+        speed = -1;
       }
-      if (key == KeyEvent.VK_A) {
-        int howMuchMove = model.mario.moveX(model.bricks, -1);
-        model.camX += howMuchMove;
+      if (key == KeyEvent.VK_SHIFT) {
+        mult = 2;
       }
+
       if (key == KeyEvent.VK_S) {
         model.mario.crouch();
       }
-		});
+		};
+
+    model.mario.moveX(model.bricks, speed * mult); 
+
     keyUpBuffer.forEach(key -> {
       keyDownBuffer.remove(key);
     });

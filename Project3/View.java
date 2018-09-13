@@ -47,12 +47,8 @@ class View extends JPanel {
 		g.setColor(new Color(255, 255, 255));
 		for (int i = 0; i < model.bricks.size(); i++) {
 			Brick b = model.bricks.get(i);
-			g.fillRect(b.x - model.camX, b.y - model.camY, b.w, b.h);
+      b.draw(g, model);
 		}
-
-		//draw ground
-		g.setColor(Color.gray);
-		g.drawLine(0, 596, 2000, 596);
 
 		//draw Mario
 		Mario mario = model.mario;
