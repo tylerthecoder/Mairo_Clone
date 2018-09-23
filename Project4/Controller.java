@@ -25,23 +25,12 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
     keyDownBuffer.add(e.getKeyCode());
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_RIGHT: keyRight = true; break;
-			case KeyEvent.VK_LEFT: keyLeft = true; break;
-			case KeyEvent.VK_SPACE: keyUp = true; break;
-			case KeyEvent.VK_DOWN: keyDown = true; break;
-			case KeyEvent.VK_S: model.saveBricks(); break; 
-			case KeyEvent.VK_L: model.loadBricks(); break; 
+			case KeyEvent.VK_S: model.saveBricks(); break;
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
     keyUpBuffer.add(e.getKeyCode());
-		switch(e.getKeyCode()) {
-			case KeyEvent.VK_RIGHT: keyRight = false; break;
-			case KeyEvent.VK_LEFT: keyLeft = false; break;
-			case KeyEvent.VK_SPACE: keyUp = false; break;
-			case KeyEvent.VK_DOWN: keyDown = false; break;
-		}
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -69,7 +58,7 @@ class Controller implements ActionListener, MouseListener, KeyListener {
       }
 		};
 
-    model.mario.moveX(model.bricks, speed * mult); 
+    model.mario.moveX(speed * mult);
 
     keyUpBuffer.forEach(key -> {
       keyDownBuffer.remove(key);
@@ -84,7 +73,7 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 		model.startBrick(e.getX(), e.getY());
 	}
 
-	public void mouseReleased(MouseEvent e) { 
+	public void mouseReleased(MouseEvent e) {
 		model.endBrick(e.getX(), e.getY());
 	}
 

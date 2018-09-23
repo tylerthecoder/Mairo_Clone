@@ -18,18 +18,17 @@ class View extends JPanel {
 	}
 
   public static Image[] loadMarioImages () {
-    Image[] marioImages = new Image[5];
-    for (int i = 0; i < 5; i++) {
+    Image[] marioImages = new Image[10];
+    for (int i = 0; i <= 9; i++) {
       String imgSrc = "imgs/mario" + (i+1) + ".png";
-      marioImages[i] = loadImage(imgSrc); 
+			marioImages[i] = loadImage(imgSrc);
     }
-    System.out.println(marioImages);
     return marioImages;
   }
 
 	static Image loadImage(String src) {
 		try {
-			return ImageIO.read(new File(src)); 	
+			return ImageIO.read(new File(src));
 		} catch (IOException e) {
 			return null;
 		}
@@ -43,15 +42,9 @@ class View extends JPanel {
     //draw background
     g.drawImage(backgroundImage, -model.camX / 3, -model.camY / 3, null);
 
-		// paint bricks
-		g.setColor(new Color(255, 255, 255));
-		for (int i = 0; i < model.bricks.size(); i++) {
-			Brick b = model.bricks.get(i);
-      b.draw(g, model);
+		// draw sprites
+		for (int i = 0; i < model.sprites.size(); i++) {
+			model.sprites.get(i).draw(g, model);
 		}
-
-		//draw Mario
-		Mario mario = model.mario;
-		g.drawImage(mario.images[mario.imgNumber], mario.x - model.camX, mario.y - model.camY, null);
 	}
 }
