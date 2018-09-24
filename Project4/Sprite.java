@@ -7,27 +7,28 @@ public abstract class Sprite {
   int prevY;
   int w;
   int h;
+  double vx;
+  double vy;
   boolean isMario;
 
-  Sprite(int _x, int _y, int _w, int _h) {
+  Sprite() {
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    vx = 0;
+    vy = 0;
+  }
+
+  Sprite(int _x, int _y, int _w, int _h, double _vx, double _vy) {
     x = _x;
     y = _y;
     w = _w;
     h = _h;
   }
 
-  int[] getPos() {
-    int[] pos = {x, y};
-    return pos;
-  }
-
-  int[] getDim() {
-    int[] dim = {w, h};
-    return dim;
-  }
-
   void addPos(int[] vec) {
-    int[] pos = getPos();
+    int[] pos = {x , y};
     pos[0] += vec[0];
     pos[1] += vec[1];
     setPos(pos);
@@ -40,18 +41,25 @@ public abstract class Sprite {
     y = pos[1];
   }
 
+  void applyGravity() {
+    vy += 1.8;
+  }
+
+  void addVel() {
+    int[] vel = { (int)vx, (int)vy };
+		addPos(vel);
+  }
+
   public abstract void update(Model m);
   public abstract void draw(Graphics g, Model m);
   public abstract Json marshall();
-  public abstract void unmarshall();
+  public abstract void spriteHit(Model m, Sprite s);
 
   boolean isColliding(Sprite s) {
-    int[] sDim = s.getDim();
-    int[] sPos = s.getPos();
-    if (x + w > sPos[0]       &&
-				x     < sPos[0] + sDim[0] &&
-				y + h > sPos[1]           &&
-				y     < sPos[1] + sDim[1]) {
+    if (x + w > s.x       &&
+				x     < s.x + s.w &&
+				y + h > s.y           &&
+				y     < s.y + s.h) {
           return true;
     }
     return false;

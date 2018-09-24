@@ -4,12 +4,12 @@ public class Brick extends Sprite{
   Color c;
 
 	Brick(int X, int Y, int W, int H, Color _c) {
-		super(X, Y, W, H);
+		super(X, Y, W, H, 0, 0);
 		c = _c;
 	}
 
 	Brick(Json b) {
-		super(0,0,0,0);
+		super(0,0,0,0,0,0);
 		super.x = (int) b.getLong("x");
 		super.y = (int) b.getLong("y");
 		super.w = (int) b.getLong("w");
@@ -25,10 +25,6 @@ public class Brick extends Sprite{
 	}
 
 	public void update(Model m) {
-
-	}
-
-	public void unmarshall() {
 
 	}
 
@@ -48,5 +44,8 @@ public class Brick extends Sprite{
   public void draw(Graphics g, Model model) {
 		g.setColor(c);
     g.fillRect(x - model.camX, y - model.camY, w, h);
-  }
+	}
+
+	@Override
+	public void spriteHit(Model m, Sprite s) {}
 }

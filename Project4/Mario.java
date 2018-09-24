@@ -11,11 +11,8 @@ public class Mario extends Sprite {
 	int sinceStep;
   static Image[] images;
 
-	double vy;
-  double vx;
-
 	Mario() {
-		super(150, 700, 60, 95);
+		super(150, 700, 60, 95, 0, 0);
 		imgNumber = 0;
 		moveSpeed = 8;
 		flightTime = 0;
@@ -26,9 +23,8 @@ public class Mario extends Sprite {
 
 	public void update(Model m) {
 		// apply gravity
-		vy += 1.8;
-		int[] vel = { (int)vx, (int)vy };
-		addPos(vel);
+		applyGravity();
+		addVel();
 
 		// control picture
 		if (vx != 0) {
@@ -50,11 +46,13 @@ public class Mario extends Sprite {
 		// check for collision
 		Iterator<Sprite> spriterator = m.sprites.iterator();
 		while(spriterator.hasNext()) {
-			Sprite b = spriterator.next();
-			if (isColliding(b)) {
-				if (b.isMario)	continue;
+			Sprite s = spriterator.next();
+			if (isColliding(s)) {
+				if (s.isMario)	continue;
 
-				int dir = getOut(b);
+				s.spriteHit(m, this);
+
+				int dir = getOut(s);
 				if (dir == 1 ) { //on ground
 					flightTime = 0;
 					vy = 0;
@@ -79,10 +77,6 @@ public class Mario extends Sprite {
 		return ob;
 	}
 
-	public void unmarshall () {
-
-	}
-
 	public void draw(Graphics g, Model m) {
 		g.drawImage(images[imgNumber], x - m.camX, y - m.camY, null);
 	}
@@ -91,14 +85,16 @@ public class Mario extends Sprite {
 		vx = moveSpeed * xDir;
 	}
 
-
 	public void jump() {
 		if (flightTime <= 5) {
-			vy += -5;
+			vy += -6;
 		}
 	}
 
 	public void crouch() {
 
 	}
+
+	@Override
+	public void spriteHit(Model m, Sprite s) {}
 }
