@@ -21,15 +21,14 @@ class View extends JPanel {
     Image[] marioImages = new Image[5];
     for (int i = 0; i < 5; i++) {
       String imgSrc = "imgs/mario" + (i+1) + ".png";
-      marioImages[i] = loadImage(imgSrc); 
+      marioImages[i] = loadImage(imgSrc);
     }
-    System.out.println(marioImages);
     return marioImages;
   }
 
 	static Image loadImage(String src) {
 		try {
-			return ImageIO.read(new File(src)); 	
+			return ImageIO.read(new File(src));
 		} catch (IOException e) {
 			return null;
 		}

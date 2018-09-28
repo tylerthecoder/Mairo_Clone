@@ -1,18 +1,20 @@
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 
-public class Game extends JFrame {
-	Model model;
-	Controller controller;
-	View view;
-	static int windowHeight;
+public class MapEditor extends JFrame {
+  Model model;
+	EditorController controller;
+  View view;
+  Editor editor;
+  static int windowHeight;
 
-	public Game() {
-		model = new Model();
-		controller = new GameController(model);
+  public MapEditor () {
+    model = new Model();
+    editor = new Editor(model);
+		controller = new EditorController(model, editor);
 		view = new View(controller, model);
 		windowHeight = 1000;
-		this.setTitle("Mario");
+		this.setTitle("Map Editor");
 		this.setSize(1600, windowHeight);
 		this.setFocusable(true);
 		this.getContentPane().add(view);
@@ -20,11 +22,11 @@ public class Game extends JFrame {
 		this.setVisible(true);
 		view.addMouseListener(controller);
 		this.addKeyListener(controller);
-	}
+  }
 
-	public static void main(String[] args) {
-		Game g = new Game();
-		g.run();
+  public static void main(String[] args) {
+		MapEditor e = new MapEditor();
+		e.run();
 	}
 
 	public void run() {
@@ -42,4 +44,6 @@ public class Game extends JFrame {
 			}
 		}
 	}
+
+
 }

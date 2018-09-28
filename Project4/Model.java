@@ -29,7 +29,6 @@ class Model {
 			s.update(this);
 		}
 
-
 		for (Sprite s : spritesToAdd) {
 			sprites.add(s);
 		}

@@ -6,13 +6,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
-class Controller implements ActionListener, MouseListener, KeyListener {
+public abstract class Controller implements ActionListener, MouseListener, KeyListener {
 	View view;
 	Model model;
-	boolean keyLeft;
-	boolean keyRight;
-	boolean keyUp;
-	boolean keyDown;
+	Editor editor;
 	HashSet<Integer> keyDownBuffer;
 	HashSet<Integer> keyUpBuffer;
 
@@ -22,66 +19,21 @@ class Controller implements ActionListener, MouseListener, KeyListener {
 		keyUpBuffer = new HashSet<Integer>();
 	}
 
+	abstract void update();
+
 	public void keyPressed(KeyEvent e) {
     keyDownBuffer.add(e.getKeyCode());
-		switch(e.getKeyCode()) {
-			case KeyEvent.VK_S: model.saveBricks(); break;
-		}
 	}
 
 	public void keyReleased(KeyEvent e) {
     keyUpBuffer.add(e.getKeyCode());
 	}
 
-	public void keyTyped(KeyEvent e) {
-	}
-
-	void update() {
-    int speed = 0;
-    int mult = 1;
-    for (int key : keyDownBuffer) {
-			if (key == KeyEvent.VK_SPACE) {
-				model.mario.jump();
-			}
-
-      if (key == KeyEvent.VK_D) {
-        speed = 1;
-      } else if (key == KeyEvent.VK_A) {
-        speed = -1;
-      }
-      if (key == KeyEvent.VK_SHIFT) {
-        mult = 2;
-      }
-
-      if (key == KeyEvent.VK_S) {
-        model.mario.crouch();
-      }
-		};
-
-    model.mario.moveX(speed * mult);
-
-    keyUpBuffer.forEach(key -> {
-      keyDownBuffer.remove(key);
-    });
-    keyUpBuffer.clear();
-	}
-
-	public void actionPerformed(ActionEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-		model.startBrick(e.getX(), e.getY());
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		model.endBrick(e.getX(), e.getY());
-	}
-
-	public void mouseEntered(MouseEvent e) {    }
-	public void mouseExited(MouseEvent e) {    }
-	public void mouseClicked(MouseEvent e) {    }
-
-	void setView(View v) {
-		view = v;
-	}
+	public void keyTyped(KeyEvent e) {}
+	public void actionPerformed(ActionEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
 }

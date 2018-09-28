@@ -13,18 +13,8 @@ class View extends JPanel {
 
 	View(Controller c, Model m){
 		model = m;
-		c.setView(this);
     backgroundImage = loadImage("imgs/background.png");
 	}
-
-  public static Image[] loadMarioImages () {
-    Image[] marioImages = new Image[10];
-    for (int i = 0; i <= 9; i++) {
-      String imgSrc = "imgs/mario" + (i+1) + ".png";
-			marioImages[i] = loadImage(imgSrc);
-    }
-    return marioImages;
-  }
 
 	static Image loadImage(String src) {
 		try {
@@ -47,4 +37,5 @@ class View extends JPanel {
 			model.sprites.get(i).draw(g, model);
 		}
 	}
+
 }

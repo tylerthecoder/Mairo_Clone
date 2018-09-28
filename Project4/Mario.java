@@ -18,8 +18,18 @@ public class Mario extends Sprite {
 		flightTime = 0;
 		isMario = true;
 		stepSize = 2;
-    images = View.loadMarioImages();
+		loadImages();
 	};
+
+	private void loadImages () {
+		if (images == null) {
+			images = new Image[10];
+			for (int i = 0; i <= 9; i++) {
+				String imgSrc = "imgs/mario" + (i+1) + ".png";
+				images[i] = View.loadImage(imgSrc);
+			}
+		}
+	}
 
 	public void update(Model m) {
 		// apply gravity
