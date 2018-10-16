@@ -1,5 +1,9 @@
+package sprites;
+
 import java.awt.Color;
 import java.awt.Graphics;
+
+
 public class Brick extends Sprite{
   Color c;
 

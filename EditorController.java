@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 class EditorController extends Controller {
-	Editor editor;
+	public Editor editor;
 
 	EditorController(Model m, Editor e) {
 		super(m);
@@ -17,18 +17,26 @@ class EditorController extends Controller {
 		editor.startClick(e.getX(), e.getY());
 	}
 
+	public void mouseMoved(MouseEvent e) {
+		editor.moveMouse(e.getX(), e.getY());
+	}
+
 	public void mouseReleased(MouseEvent e) {
 		editor.endClick(e.getX(), e.getY());
 	}
 
 	void update() {
     for (int key : keyDownBuffer) {
-			if (key == KeyEvent.VK_SPACE) {
-
+			if (key == KeyEvent.VK_0) { // Selection tool
+				editor.setTool(0);
+			} else if (key == KeyEvent.VK_1){
+				editor.setTool(1);
+			} else if (key == KeyEvent.VK_2){
+				editor.setTool(2);
 			}
 
       if (key == KeyEvent.VK_D) {
-
+				editor.attemptDelete();
 			}
 
 			if (key == KeyEvent.VK_A) {
@@ -40,7 +48,7 @@ class EditorController extends Controller {
       }
 
       if (key == KeyEvent.VK_S) {
-
+				editor.save();
       }
 		};
 

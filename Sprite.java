@@ -55,6 +55,16 @@ public abstract class Sprite {
   public abstract Json marshall();
   public abstract void spriteHit(Model m, Sprite s);
 
+  boolean isPointInsdie(int _x, int _y) {
+    if (x + w > _x &&
+				x     < _x &&
+				y + h > _y &&
+				y     < _y) {
+          return true;
+    }
+    return false;
+  }
+
   boolean isColliding(Sprite s) {
     if (x + w > s.x       &&
 				x     < s.x + s.w &&

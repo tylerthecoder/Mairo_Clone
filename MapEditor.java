@@ -8,11 +8,11 @@ public class MapEditor extends JFrame {
   Editor editor;
   static int windowHeight;
 
-  public MapEditor () {
-    model = new Model();
-    editor = new Editor(model);
+  public MapEditor (String map) {
+    model = new Model(map);
+		editor = new Editor(model);
+		view = new View(model, editor);
 		controller = new EditorController(model, editor);
-		view = new View(controller, model);
 		windowHeight = 1000;
 		this.setTitle("Map Editor");
 		this.setSize(1600, windowHeight);
@@ -21,11 +21,13 @@ public class MapEditor extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		view.addMouseListener(controller);
+		view.addMouseMotionListener(controller);
 		this.addKeyListener(controller);
   }
 
   public static void main(String[] args) {
-		MapEditor e = new MapEditor();
+		System.out.println(args[0]);
+		MapEditor e = new MapEditor(args[0]);
 		e.run();
 	}
 

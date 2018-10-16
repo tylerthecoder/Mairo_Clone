@@ -19,10 +19,6 @@ public class GameController extends Controller {
 				model.mario.jump();
       }
 
-      if (key == KeyEvent.VK_S) {
-        model.saveBricks();
-      }
-
       if (key == KeyEvent.VK_D) {
         speed = 1;
       } else if (key == KeyEvent.VK_A) {

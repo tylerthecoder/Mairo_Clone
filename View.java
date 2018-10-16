@@ -9,10 +9,17 @@ import java.awt.Color;
 
 class View extends JPanel {
 	Model model;
+	Editor editor;
   Image backgroundImage;
 
-	View(Controller c, Model m){
+	View(Model m){
 		model = m;
+    backgroundImage = loadImage("imgs/background.png");
+	}
+
+	View(Model m, Editor e) {
+		model = m;
+		editor = e;
     backgroundImage = loadImage("imgs/background.png");
 	}
 
@@ -29,12 +36,17 @@ class View extends JPanel {
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-    //draw background
+    // draw background
     g.drawImage(backgroundImage, -model.camX / 3, -model.camY / 3, null);
 
 		// draw sprites
 		for (int i = 0; i < model.sprites.size(); i++) {
 			model.sprites.get(i).draw(g, model);
+		}
+
+		// if there is an editor, draw it
+		if (editor != null) {
+			editor.draw(g);
 		}
 	}
 

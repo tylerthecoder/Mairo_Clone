@@ -8,6 +8,9 @@ class CoinBlock extends Sprite {
   int numCoinsSpit;
 
   CoinBlock (int _x, int _y) {
+    super();
+    x = _x;
+    y = _y;
     w = 89;
     h = 83;
     loadImages();

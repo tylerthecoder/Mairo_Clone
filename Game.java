@@ -8,9 +8,9 @@ public class Game extends JFrame {
 	static int windowHeight;
 
 	public Game() {
-		model = new Model();
+		model = new Model("map1");
 		controller = new GameController(model);
-		view = new View(controller, model);
+		view = new View(model);
 		windowHeight = 1000;
 		this.setTitle("Mario");
 		this.setSize(1600, windowHeight);
