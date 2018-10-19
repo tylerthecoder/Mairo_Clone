@@ -34,7 +34,6 @@ public class MapEditor extends JFrame {
 	public void run() {
 		while (true) {
 			controller.update();
-			model.update();
 			view.repaint();
 			Toolkit.getDefaultToolkit().sync();
 

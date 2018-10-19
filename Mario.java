@@ -4,22 +4,42 @@ import java.awt.Image;
 import java.awt.Graphics;
 
 public class Mario extends Sprite {
-	int imgNumber;
-	int moveSpeed;
-	int flightTime;
-	int stepSize;
-	int sinceStep;
+	final int moveSpeed = 8;
+	final int stepSize = 2;
   static Image[] images;
+	int imgNumber = 0;
+	int flightTime = 0;
+	int sinceStep;
+	int jumpCount = 0;
 
-	Mario() {
-		super(150, 700, 60, 95, 0, 0);
-		imgNumber = 0;
-		moveSpeed = 8;
-		flightTime = 0;
+	Mario(Json m) {
+		this((int) m.getLong("x"), (int) m.getLong("y"));
+	}
+
+	Mario(int _x, int _y) {
+		super(_x, _y, 60, 95, 0 ,0);
 		isMario = true;
-		stepSize = 2;
 		loadImages();
-	};
+	}
+
+	Mario(Mario m) {
+		super(m);
+		imgNumber = m.imgNumber;
+		flightTime = m.flightTime;
+		sinceStep = m.sinceStep;
+		isMario = true;
+		loadImages();
+	}
+
+	public Json marshall () {
+		Json ob = Json.newObject();
+		ob.add("x", x);
+		ob.add("y", y);
+		ob.add("w", w);
+		ob.add("h", h);
+		ob.add("type", "mario");
+		return ob;
+	}
 
 	private void loadImages () {
 		if (images == null) {
@@ -54,9 +74,7 @@ public class Mario extends Sprite {
 		flightTime++;
 
 		// check for collision
-		Iterator<Sprite> spriterator = m.sprites.iterator();
-		while(spriterator.hasNext()) {
-			Sprite s = spriterator.next();
+		for(Sprite s : m.sprites) {
 			if (isColliding(s)) {
 				if (s.isMario)	continue;
 
@@ -77,16 +95,6 @@ public class Mario extends Sprite {
 		}
 	}
 
-	public Json marshall () {
-		Json ob = Json.newObject();
-		ob.add("x", x);
-		ob.add("y", y);
-		ob.add("w", w);
-		ob.add("h", h);
-		ob.add("type", "mario");
-		return ob;
-	}
-
 	public void draw(Graphics g, Model m) {
 		g.drawImage(images[imgNumber], x - m.camX, y - m.camY, null);
 	}
@@ -96,6 +104,9 @@ public class Mario extends Sprite {
 	}
 
 	public void jump() {
+		if (flightTime == 0) {
+			jumpCount++;
+		}
 		if (flightTime <= 5) {
 			vy += -6;
 		}

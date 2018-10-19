@@ -27,6 +27,17 @@ public abstract class Sprite {
     h = _h;
   }
 
+  Sprite(Sprite s) {
+    x = s.x;
+    y = s.y;
+    w = s.w;
+    h = s.h;
+    vx = s.vx;
+    vy = s.vy;
+  }
+
+
+
   void addPos(int[] vec) {
     int[] pos = {x , y};
     pos[0] += vec[0];

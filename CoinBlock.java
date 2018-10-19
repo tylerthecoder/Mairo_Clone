@@ -6,6 +6,7 @@ class CoinBlock extends Sprite {
   static Image[] images = {};
   int imgNum;
   int numCoinsSpit;
+  int cooldown;
 
   CoinBlock (int _x, int _y) {
     super();
@@ -23,6 +24,13 @@ class CoinBlock extends Sprite {
     w = (int) ob.getLong("w");
     h = (int) ob.getLong("h");
     loadImages();
+  }
+
+  CoinBlock (CoinBlock cb) {
+    super(cb);
+    imgNum = cb.imgNum;
+    numCoinsSpit = cb.numCoinsSpit;
+    cooldown = cb.cooldown;
   }
 
   private void loadImages() {
@@ -44,6 +52,9 @@ class CoinBlock extends Sprite {
   }
 
   public void update(Model m) {
+    if (cooldown > 0) {
+      cooldown--;
+    }
   }
 
   public void draw (Graphics g, Model m) {
@@ -53,9 +64,11 @@ class CoinBlock extends Sprite {
 
   @Override
   public void spriteHit(Model m, Sprite s) {
-    if (s.isMario && s.y > y+h-30 && numCoinsSpit < 5) { //if it is mario and he is below me
+    if (s.isMario && s.y > y+h-30 && numCoinsSpit < 5 && cooldown <= 0) { //if it is mario and he is below me
       Coin c = new Coin(this);
+      System.out.println("Hit");
       m.addSprite(c);
+      cooldown = 12;
       numCoinsSpit++;
     }
   }

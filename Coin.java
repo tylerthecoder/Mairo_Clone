@@ -16,6 +16,10 @@ class Coin extends Sprite {
     vy = -15 + (Math.random() - 0.5);
   }
 
+  Coin(Coin c) {
+    super(c);
+  }
+
   @Override
   public Json marshall() {
     return null;

@@ -21,6 +21,10 @@ class EditorController extends Controller {
 		editor.moveMouse(e.getX(), e.getY());
 	}
 
+	public void mouseDragged(MouseEvent e) {
+		editor.moveMouse(e.getX(), e.getY());
+	}
+
 	public void mouseReleased(MouseEvent e) {
 		editor.endClick(e.getX(), e.getY());
 	}
@@ -33,6 +37,15 @@ class EditorController extends Controller {
 				editor.setTool(1);
 			} else if (key == KeyEvent.VK_2){
 				editor.setTool(2);
+			} else if (key == KeyEvent.VK_9){
+				editor.setTool(9);
+			}
+
+			if (key == KeyEvent.VK_RIGHT) {
+				System.out.println(model.camX);
+				model.camX += 8;
+			} else if (key == KeyEvent.VK_LEFT) {
+				model.camX -= 8;
 			}
 
       if (key == KeyEvent.VK_D) {

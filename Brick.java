@@ -1,5 +1,3 @@
-package sprites;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -14,14 +12,19 @@ public class Brick extends Sprite{
 
 	Brick(Json b) {
 		super(0,0,0,0,0,0);
-		super.x = (int) b.getLong("x");
-		super.y = (int) b.getLong("y");
-		super.w = (int) b.getLong("w");
-		super.h = (int) b.getLong("h");
+		x = (int) b.getLong("x");
+		y = (int) b.getLong("y");
+		w = (int) b.getLong("w");
+		h = (int) b.getLong("h");
     int cr = (int) b.getLong("cr");
     int cg = (int) b.getLong("cg");
     int cb = (int) b.getLong("cb");
     c = new Color(cr, cg, cb);
+	}
+
+	Brick(Brick b) {
+		super(b);
+		c = b.c;
 	}
 
 	public void setColor(Color _c) {

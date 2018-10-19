@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.awt.Color;
 import java.util.Iterator;
 
+enum MarioAction{
+	Jump, Run, Wait, JumpNRun
+}
+
 class Model {
 	int camX;
 	int camY;
@@ -11,21 +15,40 @@ class Model {
 	Mario mario;
 	String map;
 
-	Model(String m) {
-		map = m;
-		mario = new Mario();
+	Model(String _map) {
+		map = _map;
 		sprites = new ArrayList<Sprite>();
 		spritesToAdd = new ArrayList<Sprite>();
 		spritesToRemove = new ArrayList<Sprite>();
-		sprites.add(mario);
-		makeFloor();
 		loadMap(map);
 	}
 
+	Model(Model m) {
+		camX = m.camX;
+		camY = m.camY;
+		sprites = new ArrayList<Sprite>();
+		spritesToAdd = new ArrayList<Sprite>();
+		spritesToRemove = new ArrayList<Sprite>();
+		for (Sprite sprite : m.sprites) {
+			Sprite s = null;
+			if (sprite instanceof Mario) {
+				s = new Mario((Mario)sprite);
+			} else if (sprite instanceof Brick) {
+				s = new Brick((Brick)sprite);
+			} else if (sprite instanceof Coin) {
+				s = new Coin((Coin)sprite);
+			} else if (sprite instanceof CoinBlock) {
+				s = new Coin((CoinBlock)sprite);
+			}
+
+			if (sprite != null) {
+				sprites.add(s);
+			}
+		}
+	}
+
 	public void update() {
-		Iterator<Sprite> spriterator = sprites.iterator();
-		while (spriterator.hasNext()) {
-			Sprite s = spriterator.next();
+		for (Sprite s : sprites) {
 			s.update(this);
 		}
 
@@ -39,12 +62,7 @@ class Model {
 		}
 		spritesToRemove.clear();
 
-    camX = mario.x - 100;
-	}
-
-  private void makeFloor() {
-		Brick floorBrick = new Brick(0,900,10000,1000,new Color(15, 200, 15));
-		sprites.add(floorBrick);
+		camX = mario.x - 100;
 	}
 
 	public void addSprite(Sprite s) {
@@ -65,8 +83,45 @@ class Model {
 				sprites.add(new Brick(s));
 			} else if (type.equals("coinBlock")) {
 				sprites.add(new CoinBlock(s));
+			} else if (type.equals("mario")) {
+				mario = new Mario(s);
+				sprites.add(mario);
+			} else if (type.equals("platform")) {
+				sprites.add(new Platform(s));
 			}
 		}
 	}
+
+	// public
+	double evaluateAction(int action, int depth) {
+		// Evaluate the state
+		if(depth >= d) {
+			return marioPos + 50 * coins - jumpCount;
+		}
+
+		// Simulate the action
+		Model copy = new Model(this); // uses the copy constructor
+		copy.doAction(action);
+		copy.update(); // advance simulated time
+
+		// Recurse
+		if(depth % k != 0) {
+				return copy.evaluateAction(action, depth + 1);
+		} else {
+				double best = copy.evaluateAction(run, depth + 1);
+				best = Math.max(best,
+					copy.evaluateAction(jump, depth + 1));
+				best = Math.max(best,
+					copy.evaluateAction(wait, depth + 1));
+				return best;
+		}
+	}
+
+	void doAction(MarioAction action) {
+		if (action = MarioAction.Run) {
+
+		}
+	}
+
 }
 
