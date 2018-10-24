@@ -2,6 +2,16 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - MapEditor",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "MapEditor",
+      "args": ""
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - Game",
       "request": "launch",
       "cwd": "${workspaceFolder}",

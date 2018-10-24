@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Image;
+// import sprites.*;
 
 
 class CoinBlock extends Sprite {
@@ -8,12 +9,8 @@ class CoinBlock extends Sprite {
   int numCoinsSpit;
   int cooldown;
 
-  CoinBlock (int _x, int _y) {
-    super();
-    x = _x;
-    y = _y;
-    w = 89;
-    h = 83;
+  CoinBlock (int x, int y) {
+    super(x, y, 89, 83);
     loadImages();
   }
 
@@ -67,6 +64,7 @@ class CoinBlock extends Sprite {
     if (s.isMario && s.y > y+h-30 && numCoinsSpit < 5 && cooldown <= 0) { //if it is mario and he is below me
       Coin c = new Coin(this);
       System.out.println("Hit");
+      m.mario.coins++;
       m.addSprite(c);
       cooldown = 12;
       numCoinsSpit++;

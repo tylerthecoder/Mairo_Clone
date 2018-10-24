@@ -1,4 +1,4 @@
-javac *.java
+javac -d . *.java
 
 if [ $1 == 'Game' ]
 then

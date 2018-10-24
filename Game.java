@@ -6,9 +6,10 @@ public class Game extends JFrame {
 	Controller controller;
 	View view;
 	static int windowHeight;
+	static String map = "map3";
 
 	public Game() {
-		model = new Model("map3");
+		model = new Model();
 		controller = new GameController(model);
 		view = new View(model);
 		windowHeight = 1000;

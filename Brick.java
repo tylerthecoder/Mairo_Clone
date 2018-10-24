@@ -1,17 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
+// import Paradigms.Sprites.*;
 
 
 public class Brick extends Sprite{
   Color c;
 
 	Brick(int X, int Y, int W, int H, Color _c) {
-		super(X, Y, W, H, 0, 0);
+		super(X, Y, W, H);
 		c = _c;
 	}
 
 	Brick(Json b) {
-		super(0,0,0,0,0,0);
+		super();
 		x = (int) b.getLong("x");
 		y = (int) b.getLong("y");
 		w = (int) b.getLong("w");

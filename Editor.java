@@ -84,7 +84,7 @@ class Editor {
 		for (Sprite s : model.sprites) {
 			tempList.add(s.marshall());
 		}
-		ob.save("maps/" + model.map + ".json");
+		ob.save("maps/" + Game.map + ".json");
 		System.out.println("Map Saved");
 	}
 

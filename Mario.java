@@ -1,9 +1,12 @@
+// package Paradigms.sprites;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Image;
 import java.awt.Graphics;
+// import Paradigms.sprites.*;
 
-public class Mario extends Sprite {
+public class Mario extends Movable {
 	final int moveSpeed = 8;
 	final int stepSize = 2;
   static Image[] images;
@@ -11,13 +14,15 @@ public class Mario extends Sprite {
 	int flightTime = 0;
 	int sinceStep;
 	int jumpCount = 0;
+	int coins = 0;
+	boolean dead = false;
 
 	Mario(Json m) {
 		this((int) m.getLong("x"), (int) m.getLong("y"));
 	}
 
-	Mario(int _x, int _y) {
-		super(_x, _y, 60, 95, 0 ,0);
+	Mario(int x, int y) {
+		super(x, y, 60, 95);
 		isMario = true;
 		loadImages();
 	}
@@ -27,6 +32,8 @@ public class Mario extends Sprite {
 		imgNumber = m.imgNumber;
 		flightTime = m.flightTime;
 		sinceStep = m.sinceStep;
+		coins = m.coins;
+		dead = m.dead;
 		isMario = true;
 		loadImages();
 	}
@@ -56,6 +63,11 @@ public class Mario extends Sprite {
 		applyGravity();
 		addVel();
 
+		// controll death
+		if (y > Game.windowHeight) {
+			dead = true;
+		}
+
 		// control picture
 		if (vx != 0) {
 			sinceStep++;
@@ -75,12 +87,12 @@ public class Mario extends Sprite {
 
 		// check for collision
 		for(Sprite s : m.sprites) {
+			if (s.isMario) continue;
 			if (isColliding(s)) {
-				if (s.isMario)	continue;
+				int dir = getOut(s);
 
 				s.spriteHit(m, this);
 
-				int dir = getOut(s);
 				if (dir == 1 ) { //on ground
 					flightTime = 0;
 					vy = 0;

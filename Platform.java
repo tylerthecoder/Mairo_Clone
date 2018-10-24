@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Image;
+// import sprites.*;
 
 
 public class Platform extends Sprite {
@@ -10,7 +11,7 @@ public class Platform extends Sprite {
 
 
   Platform() {
-    super(100,100,414,122,0,0);
+    super(100,100,414,122);
     startX = 100;
     endX = 300;
     x = startX;
@@ -19,7 +20,7 @@ public class Platform extends Sprite {
   }
 
   Platform(Json ob) {
-    super(0,0,0,0,0,0);
+    super();
     startX = (int) ob.getLong("sx");
     endX = (int) ob.getLong("ex");
     x = startX;

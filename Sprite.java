@@ -1,4 +1,7 @@
+//package Paradigms.sprites;
+
 import java.awt.Graphics;
+// import Paradigms.models.*;
 
 public abstract class Sprite {
   int x;
@@ -7,8 +10,6 @@ public abstract class Sprite {
   int prevY;
   int w;
   int h;
-  double vx;
-  double vy;
   boolean isMario;
 
   Sprite() {
@@ -16,11 +17,9 @@ public abstract class Sprite {
     y = 0;
     w = 0;
     h = 0;
-    vx = 0;
-    vy = 0;
   }
 
-  Sprite(int _x, int _y, int _w, int _h, double _vx, double _vy) {
+  Sprite(int _x, int _y, int _w, int _h) {
     x = _x;
     y = _y;
     w = _w;
@@ -32,33 +31,6 @@ public abstract class Sprite {
     y = s.y;
     w = s.w;
     h = s.h;
-    vx = s.vx;
-    vy = s.vy;
-  }
-
-
-
-  void addPos(int[] vec) {
-    int[] pos = {x , y};
-    pos[0] += vec[0];
-    pos[1] += vec[1];
-    setPos(pos);
-  }
-
-  void setPos(int[] pos) {
-    prevX = x;
-    prevY = y;
-    x = pos[0];
-    y = pos[1];
-  }
-
-  void applyGravity() {
-    vy += 1.8;
-  }
-
-  void addVel() {
-    int[] vel = { (int)vx, (int)vy };
-		addPos(vel);
   }
 
   public abstract void update(Model m);
