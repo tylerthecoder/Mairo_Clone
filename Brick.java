@@ -4,11 +4,19 @@ import java.awt.Graphics;
 
 
 public class Brick extends Sprite{
-  Color c;
+	Color c;
+	boolean isFloor;
+	static int floorHeight = 50;
 
 	Brick(int X, int Y, int W, int H, Color _c) {
 		super(X, Y, W, H);
 		c = _c;
+	}
+
+	Brick(int x, int w) { //this is the floor
+		super(x, Game.windowHeight - floorHeight, w, floorHeight);
+		c = Color.green;
+		isFloor = true;
 	}
 
 	Brick(Json b) {
@@ -50,8 +58,13 @@ public class Brick extends Sprite{
 	}
 
   public void draw(Graphics g, Model model) {
-		g.setColor(c);
-    g.fillRect(x - model.camX, y - model.camY, w, h);
+		if (isFloor) {
+			g.setColor(Color.GREEN);
+    	g.fillRect(x - model.camX, y, w, h);
+		} else {
+			g.setColor(c);
+    	g.fillRect(x - model.camX, y - model.camY, w, h);
+		}
 	}
 
 	@Override

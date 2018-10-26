@@ -63,7 +63,6 @@ class CoinBlock extends Sprite {
   public void spriteHit(Model m, Sprite s) {
     if (s.isMario && s.y > y+h-30 && numCoinsSpit < 5 && cooldown <= 0) { //if it is mario and he is below me
       Coin c = new Coin(this);
-      System.out.println("Hit");
       m.mario.coins++;
       m.addSprite(c);
       cooldown = 12;

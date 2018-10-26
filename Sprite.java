@@ -31,6 +31,8 @@ public abstract class Sprite {
     y = s.y;
     w = s.w;
     h = s.h;
+    prevX = s.prevX;
+    prevY = s.prevY;
   }
 
   public abstract void update(Model m);

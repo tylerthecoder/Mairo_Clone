@@ -33,6 +33,6 @@ public abstract class Movable extends Sprite {
   }
 
   public void applyGravity() {
-    vy += 2.3;
+    vy += 1.8;
   }
 }

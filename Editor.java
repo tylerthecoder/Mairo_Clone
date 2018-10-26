@@ -1,8 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-enum tools {
-	Selector, Brick, CoinBlock, Mario
+enum Tool {
+	Selector, Brick, Floor, CoinBlock, Mario
 }
 
 class Editor {
@@ -13,14 +13,11 @@ class Editor {
 	int currentMX;
 	int currentMY;
 	boolean isMouseDown;
-	// 0: selection
-	// 1: bricksmouseStartX = x;
-	// 2: CoinBlocks
-	int tool;
+	Tool tool;
 
   Editor(Model m) {
     model = m;
-    tool = 1; // set the tool to bricks
+    tool = Tool.Selector; // set the tool to bricks
   }
 
 	public void startClick(int x, int y) {
@@ -29,11 +26,11 @@ class Editor {
 		isMouseDown = true;
 		mouseStartX = clickX;
 		mouseStartY = clickY;
-		if (tool == 0) { //selection tool
+		if (tool == Tool.Selector) {
 			selectObject(clickX, clickY);
-		}else if ( tool == 2) { //coin block
+		}else if ( tool == Tool.CoinBlock) {
 			addCoinBlock(clickX, clickY);
-		}else if (tool == 9) {
+		}else if (tool == Tool.Mario) {
 			setMario(clickX, clickY);
 		}
 	}
@@ -42,8 +39,10 @@ class Editor {
 		isMouseDown = false;
 		int clickX = x + model.camX;
 		int clickY = y + model.camY;
-		if (tool == 1) { // bricks tool
+		if (tool == Tool.Brick) { // bricks tool
 			addBrick(clickX, clickY);
+		} else if (tool == Tool.Floor) {
+			addFloor(clickX);
 		}
 	}
 
@@ -53,7 +52,7 @@ class Editor {
 	}
 
 	public void attemptDelete() {
-		if (tool == 0) {
+		if (tool == Tool.Selector) {
 			if (selectedObject != null) {
 				model.sprites.remove(selectedObject);
 			}
@@ -61,17 +60,23 @@ class Editor {
 	}
 
 	public void draw(Graphics g) {
-		if (tool == 1 && isMouseDown) {
+		if (tool == Tool.Brick && isMouseDown) {
 			int posX = Math.min(currentMX, mouseStartX);
 			int posY = Math.min(currentMY, mouseStartY);
 			int width =	Math.abs(currentMX - mouseStartX);
 			int height = Math.abs(currentMY - mouseStartY);
 			Sprite b = new Brick(posX, posY, width, height, Color.WHITE);
 			b.draw(g, model);
-		} else if (tool == 2) {
+		} else if (tool == Tool.Floor && isMouseDown) {
+			int posX = Math.min(currentMX, mouseStartX);
+			int width =	Math.abs(currentMX - mouseStartX);
+
+			Brick b = new Brick(posX, width);
+			b.draw(g, model);
+		} else if (tool == Tool.CoinBlock) {
 			Sprite cb = new CoinBlock(currentMX, currentMY);
 			cb.draw(g, model);
-		} else if (tool == 9) {
+		} else if (tool == Tool.Mario) {
 			Sprite m = new Mario(currentMX, currentMY);
 			m.draw(g, model);
 		}
@@ -88,7 +93,7 @@ class Editor {
 		System.out.println("Map Saved");
 	}
 
-	public void setTool (int t) {
+	public void setTool (Tool t) {
 		tool = t;
 	}
 
@@ -96,7 +101,6 @@ class Editor {
 		// check to see if you are clicking a brick
 		for (Sprite s : model.sprites) {
 			if (s.isPointInsdie(clickX, clickY)) {
-				System.out.println("Ye[");
 				selectedObject = s;
 				break;
 			}
@@ -110,6 +114,14 @@ class Editor {
 		int height = Math.abs(clickY - mouseStartY);
 
 		Brick b = new Brick(posX, posY, width, height, new Color(255,255,255));
+		model.sprites.add(b);
+	}
+
+	public void addFloor (int clickX) {
+		int posX = Math.min(clickX, mouseStartX);
+		int width =	Math.abs(clickX - mouseStartX);
+
+		Brick b = new Brick(posX, width);
 		model.sprites.add(b);
 	}
 

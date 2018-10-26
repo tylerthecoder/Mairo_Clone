@@ -1,12 +1,12 @@
-javac -d . *.java
+javac -classpath . -d . *.java
 
 if [ $1 == 'Game' ]
 then
   echo "Press WAD for movement and Shift to sprint"
-  java Game
+  java Game Mario
 elif [ $1 == 'Editor' ]
 then
-  java MapEditor $2
+  java Game Editor $2
 fi
 
 rm -f *.class

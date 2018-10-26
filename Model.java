@@ -1,12 +1,13 @@
-// package Paradigms.models;
-
 import java.util.ArrayList;
 import java.awt.Color;
 import java.util.Iterator;
 // import Paradigms.sprites.*;
 
 enum MarioAction{
-	Jump, Run, Wait
+	Forward,
+	Jump,
+	Wait,
+	Backwards
 }
 
 class Model {
@@ -17,14 +18,16 @@ class Model {
 	ArrayList<Sprite> spritesToAdd;
 	ArrayList<Sprite> spritesToRemove;
 	Mario mario;
+	String map;
 
-	int d = 40;
-	int k = 6;
+	int d = 5;
+	int k = 7;
 
-	Model() {
+	Model(String _map) {
 		sprites = new ArrayList<Sprite>();
 		spritesToAdd = new ArrayList<Sprite>();
 		spritesToRemove = new ArrayList<Sprite>();
+		map = _map;
 		loadMap();
 	}
 
@@ -44,7 +47,7 @@ class Model {
 			} else if (sprite instanceof Coin) {
 				s = new Coin((Coin)sprite);
 			} else if (sprite instanceof CoinBlock) {
-				s = new Coin((CoinBlock)sprite);
+				s = new CoinBlock((CoinBlock)sprite);
 			}
 
 			if (sprite != null) {
@@ -90,7 +93,7 @@ class Model {
 	}
 
 	public void loadMap() {
-		Json ob =	Json.load("maps/" + Game.map + ".json");
+		Json ob =	Json.load("maps/" + map + ".json");
 		Json jsonSprites = ob.get("sprites");
 		for (int i = 0; i < jsonSprites.size(); i++) {
 			Json s = jsonSprites.get(i);
@@ -110,34 +113,40 @@ class Model {
 
 	public double evaluateAction(MarioAction action, int depth) {
 		// Evaluate the state
+
+		double score = 0.0;
+
+		score = (mario.x - mario.prevX) + 5000 * mario.coins - 2 * mario.jumpCount;
 		if(depth >= d) {
 			if (mario.dead) return 0;
-			if (mario.coins > 0) {
-				System.out.println(mario.coins);
-			}
-			return mario.x + 10000 * mario.coins; //- mario.jumpCount;
+			return score;
 		}
+
+		score /= (depth + 1);
 
 		// Simulate the action
 		Model copy = new Model(this); // uses the copy constructor
-		copy.doAction(action);
-		copy.update(); // advance simulated time
-		// Recurse
-		if(depth % k != 0) {
-				return copy.evaluateAction(action, depth + 1);
-		} else {
-				double best = copy.evaluateAction(MarioAction.Run, depth + 1);
-				best = Math.max(best,	copy.evaluateAction(MarioAction.Wait, depth + 1));
-				best = Math.max(best, copy.evaluateAction(MarioAction.Jump, depth + 1));
-				return best;
+
+		for (int i = 0; i < k; i++) {
+			copy.doAction(action);
+			copy.update();
 		}
+
+		double best = 0.0;
+		for (MarioAction mAction: MarioAction.values()) {
+			best = Math.max(best, copy.evaluateAction(mAction, depth + 1));
+		}
+		if (best == 0) return 0;
+		return best + score;
 	}
 
 	void doAction(MarioAction action) {
-		if (action == MarioAction.Run) {
-			mario.moveX(2);
+		if (action == MarioAction.Forward) {
+			mario.moveX(1);
+		} else if (action == MarioAction.Backwards) {
+			mario.moveX(-1);
 		} else if (action == MarioAction.Wait) {
-			// do nothing
+			mario.waitPlz();
 		} else if (action == MarioAction.Jump) {
 			mario.jump();
 		}

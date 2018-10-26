@@ -15,6 +15,7 @@ public class Mario extends Movable {
 	int sinceStep;
 	int jumpCount = 0;
 	int coins = 0;
+	int waitTime = 0;
 	boolean dead = false;
 
 	Mario(Json m) {
@@ -89,6 +90,7 @@ public class Mario extends Movable {
 		for(Sprite s : m.sprites) {
 			if (s.isMario) continue;
 			if (isColliding(s)) {
+
 				int dir = getOut(s);
 
 				s.spriteHit(m, this);
@@ -124,8 +126,9 @@ public class Mario extends Movable {
 		}
 	}
 
-	public void crouch() {
-
+	public void waitPlz() {
+		// do nothing
+		waitTime++;
 	}
 
 	@Override
