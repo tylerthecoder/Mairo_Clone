@@ -31,6 +31,17 @@ class Coin extends Movable {
     applyGravity();
     addVel();
 
+    for (Sprite s : m.sprites) {
+      if (s == this) continue;
+      if (s instanceof Coin) continue;
+      if (isColliding(s)) {
+        getOut(s);
+        vx *= -0.9;
+        vy *= -0.9;
+        addVel();
+      }
+    }
+
     if (y > Game.windowHeight) {
       m.removeSprite(this);
     }

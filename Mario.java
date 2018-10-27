@@ -59,6 +59,7 @@ public class Mario extends Movable {
 		}
 	}
 
+	@Override
 	public void update(Model m) {
 		// apply gravity
 		applyGravity();

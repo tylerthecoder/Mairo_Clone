@@ -18,7 +18,7 @@ public class Game extends JFrame {
 	static Mode mode = Mode.AI;
 	static int windowHeight = 1000;
 	static int windowWidth = 1600;
-	static String map = "map1";
+	static String map = "map3";
 
 	public Game() {
 		model = new Model(map);
