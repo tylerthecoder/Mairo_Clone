@@ -14,7 +14,8 @@ public class Mario extends Movable {
 	int flightTime = 0;
 	int sinceStep;
 	int jumpCount = 0;
-	int coins = 0;
+	int coinBlockCount = 0;
+	int coinsCollected = 0;
 	int waitTime = 0;
 	boolean dead = false;
 
@@ -32,11 +33,10 @@ public class Mario extends Movable {
 		super(m);
 		imgNumber = m.imgNumber;
 		flightTime = m.flightTime;
-		sinceStep = m.sinceStep;
-		coins = m.coins;
+		coinBlockCount = m.coinBlockCount;
+		coinsCollected = m.coinsCollected;
 		dead = m.dead;
 		isMario = true;
-		loadImages();
 	}
 
 	public Json marshall () {

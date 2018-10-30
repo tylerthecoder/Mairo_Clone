@@ -4,6 +4,8 @@ import java.awt.Image;
 
 class Coin extends Movable {
   static Image image;
+  int lifeCount = 0;
+  int lifespan = 200;
 
   Coin(CoinBlock cb) {
     super(0, 0, 75, 75);
@@ -30,6 +32,11 @@ class Coin extends Movable {
   public void update(Model m) {
     applyGravity();
     addVel();
+    lifeCount++;
+
+    if (lifeCount >= lifespan) {
+      m.spritesToRemove.add(this);
+    }
 
     for (Sprite s : m.sprites) {
       if (s == this) continue;
@@ -54,6 +61,9 @@ class Coin extends Movable {
 
   @Override
   public void spriteHit(Model m, Sprite s) {
-
+    if (s.isMario) {
+      m.mario.coinsCollected++;
+      m.removeSprite(this);
+    }
   }
 }

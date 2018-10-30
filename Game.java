@@ -15,10 +15,10 @@ public class Game extends JFrame {
 	Controller controller;
 	View view;
 
-	static Mode mode = Mode.AI;
 	static int windowHeight = 1000;
 	static int windowWidth = 1600;
-	static String map = "map3";
+	static String map = "parcore";
+	static Mode mode = Mode.AI;
 
 	public Game() {
 		model = new Model(map);
@@ -42,8 +42,8 @@ public class Game extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(args[0]);
-		if (args[0].equals("Editor")) {
+
+		if (args.length > 0 && args[0].equals("Editor")) {
 			System.out.println(args[0]);
 			Game.map = args[1];
 			Game.mode = Mode.Editor;

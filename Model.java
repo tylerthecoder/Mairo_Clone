@@ -20,8 +20,8 @@ class Model {
 	Mario mario;
 	String map;
 
-	int d = 5;
-	int k = 7;
+	int d = 6;
+	int k = 6;
 
 	Model(String _map) {
 		sprites = new ArrayList<Sprite>();
@@ -58,7 +58,6 @@ class Model {
 
 	public void print() {
 
-		System.out.println(mario.coins);
 		System.out.println(sprites.size());
 		for (Sprite s : sprites) {
 			System.out.println(s.x);
@@ -112,11 +111,9 @@ class Model {
 	}
 
 	public double evaluateAction(MarioAction action, int depth) {
-		// Evaluate the state
-
 		double score = 0.0;
 
-		score = (mario.x - mario.prevX) + 5000 * mario.coins - 2 * mario.jumpCount;
+		score = 3*(mario.x - mario.prevX) + 5000 * mario.coinBlockCount /* + 6000 * mario.coinsCollected */ - (mario.jumpCount + mario.waitTime);
 		if(depth >= d) {
 			if (mario.dead) return 0;
 			return score;
