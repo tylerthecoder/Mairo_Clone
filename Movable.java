@@ -16,7 +16,6 @@ public abstract class Movable extends Sprite {
 
   Movable(Movable m) {
     super(m);
-
     vx = m.vx;
     vy = m.vy;
   }
