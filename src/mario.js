@@ -19,6 +19,12 @@ class Mario extends Movable {
       img.src = "imgs/mario" + i + ".png";
       this.images.push(img);
     }
+    this.lImage = new Image();
+    this.lImage.src = "imgs/luigi.png";
+  }
+
+  setName(name) {
+    this.name = name;
   }
 
   update(model) {
@@ -59,7 +65,11 @@ class Mario extends Movable {
   }
 
   draw(paint, model) {
-    paint.drawImage(this.images[this.imgNumber], this.x - model.camx, this.y)
+    if (this.name == "Mario") {
+      paint.drawImage(this.images[this.imgNumber], this.x - model.camx, this.y)
+    } else if (this.name === "Luigi") {
+      paint.drawImage(this.lImage, this.x - model.camx, this.y, this.w, this.h);
+    }
   }
 
   jump() {
