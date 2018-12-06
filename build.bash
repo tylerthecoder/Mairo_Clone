@@ -1,2 +1,1 @@
-#!/bin/bash
-javac *.java
+echo 'Run python game.py to play'
